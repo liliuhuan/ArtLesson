@@ -6,7 +6,6 @@
     <!-- 顶层Logo居中 -->
     <item>
         <bitmap
-            android:gravity="center"
-            android:src="@mipmap/bg_splash" />
+            android:src="@drawable/splash_default_img"/>
     </item>
 </layer-list>

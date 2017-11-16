@@ -32,7 +32,7 @@ public class ImplPreferencesHelper implements PreferencesHelper {
 
     @Override
     public boolean isFrist() {
-        return mSPrefs.getBoolean("isFrist",false);
+        return mSPrefs.getBoolean("isFrist",true);
     }
 
     @Override

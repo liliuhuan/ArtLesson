@@ -19,7 +19,7 @@ import io.reactivex.functions.Consumer;
  * =======================================
  * Author :李刘欢
  * DATA : 2017-11-16
- * DES : ${}
+ * DES :启动页面
  * =======================================
  */
 
@@ -56,6 +56,7 @@ public class SplashPresenter extends RxPresenter<SplashContract.View> implements
 
     private void jumpToOther() {
         if (dataManager.isFrist()){
+            dataManager.setIsFrist(false);
             mView.jumpToWelcom();
         }else {
             mView.jumpToMain();

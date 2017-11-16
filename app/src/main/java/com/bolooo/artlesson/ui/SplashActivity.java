@@ -2,13 +2,13 @@ package com.bolooo.artlesson.ui;
 
 import android.widget.ImageView;
 
-import com.bolooo.artlesson.MainActivity;
 import com.bolooo.artlesson.R;
 import com.bolooo.artlesson.base.mvpbase.BaseMVPActivity;
 import com.bolooo.artlesson.compant.ImageLoader;
 import com.bolooo.artlesson.contract.SplashContract;
 import com.bolooo.artlesson.entity.SplashEntity;
 import com.bolooo.artlesson.presenter.SplashPresenter;
+import com.bolooo.artlesson.ui.activity.HomeActivity;
 import com.bolooo.artlesson.util.IntentUtils;
 import com.bumptech.glide.Glide;
 
@@ -38,12 +38,16 @@ public class SplashActivity extends BaseMVPActivity<SplashPresenter> implements 
 
     @Override
     public void jumpToMain() {
-        IntentUtils.startIntent(this, MainActivity.class);
+        IntentUtils.startIntent(this, HomeActivity.class);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
     @Override
     public void jumpToWelcom() {
         IntentUtils.startIntent(this, WelcomeActivity.class);
+        finish();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
     @Override
@@ -56,5 +60,4 @@ public class SplashActivity extends BaseMVPActivity<SplashPresenter> implements 
         Glide.clear(splashIv);
         super.onDestroy();
     }
-
 }

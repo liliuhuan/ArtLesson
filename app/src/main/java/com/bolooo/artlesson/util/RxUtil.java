@@ -49,7 +49,7 @@ public class RxUtil {
                         if(tMyHttpResponse.isSuccess()) {
                             return createData(tMyHttpResponse.getData());
                         } else {
-                            return Flowable.error(new ApiException(tMyHttpResponse.getMessage(), 404));
+                            return Flowable.error(new ApiException("hhelo", 404));
                         }
                     }
                 });

@@ -110,7 +110,7 @@ public class HttpModule {
             }
         };
         //设置统一的请求头部参数,token
-        builder.addInterceptor(apikeyToken);
+       // builder.addInterceptor(apikeyToken);
         //设置缓存
         builder.addNetworkInterceptor(cacheInterceptor);
         builder.addInterceptor(cacheInterceptor);
@@ -124,15 +124,12 @@ public class HttpModule {
         return builder.build();
     }
 
-
-
     @Singleton
     @Provides
     @MyUrl
     Retrofit provideMyRetrofit(Retrofit.Builder builder, OkHttpClient client) {
         return createRetrofit(builder, client,baseUrl);
     }
-
 
     @Singleton
     @Provides

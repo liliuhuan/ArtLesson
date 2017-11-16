@@ -1,5 +1,7 @@
 package com.bolooo.artlesson.model.http;
 
+import android.util.Log;
+
 import com.bolooo.artlesson.entity.SplashEntity;
 import com.bolooo.artlesson.model.http.api.MyApis;
 import com.bolooo.artlesson.model.http.respone.MyHttpResponse;
@@ -27,6 +29,8 @@ public class RetrofitHelper implements HttpHelper {
 
     @Override
     public Flowable<MyHttpResponse<SplashEntity>> fetchSplashInfo(String key) {
+        Flowable<MyHttpResponse<SplashEntity>> splashInfo = mMyApiService.getSplashInfo(key);
+        Log.d("tag==",splashInfo.toString());
         return mMyApiService.getSplashInfo(key);
     }
 

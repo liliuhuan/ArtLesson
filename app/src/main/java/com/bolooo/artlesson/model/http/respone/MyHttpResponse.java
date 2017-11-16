@@ -10,8 +10,7 @@ package com.bolooo.artlesson.model.http.respone;
 
 public class MyHttpResponse<T> {
     private boolean IsSuccess;
-    private String Message;
-    private T data;
+    private T Data;
 
     public boolean isSuccess() {
         return IsSuccess;
@@ -21,19 +20,11 @@ public class MyHttpResponse<T> {
         IsSuccess = success;
     }
 
-    public String getMessage() {
-        return Message;
-    }
-
-    public void setMessage(String message) {
-        Message = message;
-    }
-
     public T getData() {
-        return data;
+        return Data;
     }
 
     public void setData(T data) {
-        this.data = data;
+        Data = data;
     }
 }

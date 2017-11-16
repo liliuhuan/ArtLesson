@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.bolooo.studyparents.MainActivity">
+    tools:context="com.bolooo.artlesson.MainActivity">
 
     <FrameLayout
         android:id="@+id/view_main"

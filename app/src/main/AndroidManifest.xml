@@ -71,6 +71,19 @@
         <service
             android:name=".compant.InitializeService"
             android:exported="false" />
+        <!-- 百度定位 -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" />
+            </intent-filter>
+        </service>
+        <!-- Yo3FVUtNTqPOuVG2Z4baOK5ErjRbB5lK -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="DHixP05ssMGQGYdKX5ZHYzSAoImvsF9z" />
 
         <activity
             android:name=".ui.SplashActivity"
@@ -82,12 +95,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.WelcomeActivity" />
-        <activity android:name=".MainActivity" />
         <activity
-            android:launchMode="singleTask"
+            android:name=".ui.WelcomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.activity.HomeActivity"
-            android:label="@string/title_activity_home"></activity>
+            android:label="@string/title_activity_home"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.HtmlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

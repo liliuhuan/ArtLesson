@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.bolooo.artlesson.R;
 import com.bolooo.artlesson.di.compant.AppComponent;
 import com.bolooo.artlesson.di.compant.DaggerAppComponent;
@@ -34,6 +35,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import io.realm.Realm;
+
 
 import static com.bolooo.artlesson.model.http.Constants.UPDATE_APP_URL;
 
@@ -76,7 +78,8 @@ public class App extends Application {
         Realm.init(getApplicationContext());
         //初始化更新控件
         initUpdateConfig();
-
+        //百度地图定位
+        SDKInitializer.initialize(instance);
         //在子线程中完成其他初始化
        // InitializeService.start(this);
     }

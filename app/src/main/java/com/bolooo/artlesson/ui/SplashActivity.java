@@ -14,6 +14,9 @@ import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 
+/**
+ * 启动页面
+ */
 
 public class SplashActivity extends BaseMVPActivity<SplashPresenter> implements SplashContract.View {
 

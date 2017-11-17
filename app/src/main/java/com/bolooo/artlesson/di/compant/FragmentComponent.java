@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.bolooo.artlesson.di.module.FragmentModule;
 import com.bolooo.artlesson.di.scope.FragmentScope;
+import com.bolooo.artlesson.ui.fragment.HomeFragment;
 
 import dagger.Component;
 
@@ -17,8 +18,8 @@ public interface FragmentComponent {
 
     Activity getActivity();
 
-//    void inject(DailyFragment dailyFragment);
-//
+   void inject(HomeFragment homeFragment);
+
 //    void inject(ThemeFragment themeFragment);
 //
 //    void inject(SectionFragment sectionFragment);

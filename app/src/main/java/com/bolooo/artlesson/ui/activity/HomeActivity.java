@@ -14,6 +14,9 @@ import com.bolooo.artlesson.ui.fragment.MineFragment;
 
 import butterknife.BindView;
 
+/**
+ * 首页面
+ */
 public class HomeActivity extends BaseActivity {
     @BindView(R.id.content)
     FrameLayout content;
@@ -44,11 +47,12 @@ public class HomeActivity extends BaseActivity {
         homeFragment = HomeFragment.newInstance();
         chatFragment = ChatFragment.newInstance();
         mineFragment = MineFragment.newInstance();
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         loadMultipleRootFragment(R.id.content,0,homeFragment,chatFragment,mineFragment);
 
-        navigation.setSelectedItemId(R.id.navigation_dashboard);
-        showHideFragment(chatFragment);
+//        navigation.setSelectedItemId(R.id.navigation_dashboard);
+//        showHideFragment(chatFragment);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

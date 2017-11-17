@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by codeest on 16/9/27.
+ * 加载进度显示框
  */
 
 public class ProgressImageView extends AppCompatImageView{

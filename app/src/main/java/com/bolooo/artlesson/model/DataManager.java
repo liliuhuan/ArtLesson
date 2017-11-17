@@ -1,10 +1,14 @@
 package com.bolooo.artlesson.model;
 
+import com.bolooo.artlesson.entity.AdEntity;
+import com.bolooo.artlesson.entity.HomeDataEntity;
 import com.bolooo.artlesson.entity.SplashEntity;
 import com.bolooo.artlesson.model.db.DBHelper;
 import com.bolooo.artlesson.model.http.HttpHelper;
 import com.bolooo.artlesson.model.http.respone.MyHttpResponse;
 import com.bolooo.artlesson.model.pfres.PreferencesHelper;
+
+import java.util.Map;
 
 import io.reactivex.Flowable;
 
@@ -69,6 +73,16 @@ public class DataManager implements DBHelper,HttpHelper,PreferencesHelper {
     }
 
     @Override
+    public int getAdNumber() {
+        return mPreferencesHelper.getAdNumber();
+    }
+
+    @Override
+    public void setAdNumber(int number) {
+        mPreferencesHelper.setAdNumber(number);
+    }
+
+    @Override
     public Flowable<MyHttpResponse<SplashEntity>> fetchSplashInfo(String key) {
         return mHttpHelper.fetchSplashInfo(key);
     }
@@ -76,5 +90,20 @@ public class DataManager implements DBHelper,HttpHelper,PreferencesHelper {
     @Override
     public Flowable<MyHttpResponse<String>> fetchCityInfo(String params) {
         return mHttpHelper.fetchCityInfo(params);
+    }
+
+    @Override
+    public Flowable<MyHttpResponse<AdEntity>> fetchMainAdInfo() {
+        return mHttpHelper.fetchMainAdInfo();
+    }
+
+    @Override
+    public Flowable<MyHttpResponse<AdEntity>> fetchMainBannerInfo(int type) {
+        return mHttpHelper.fetchMainBannerInfo(type);
+    }
+
+    @Override
+    public Flowable<MyHttpResponse<HomeDataEntity>> fetchMainCourseListInfo(int type, Map<String, String> params) {
+        return mHttpHelper.fetchMainCourseListInfo(type,params);
     }
 }

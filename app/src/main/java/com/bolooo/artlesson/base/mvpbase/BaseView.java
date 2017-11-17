@@ -21,4 +21,6 @@ public interface BaseView {
     void stateLoading();
 
     void stateMain();
+
+
 }

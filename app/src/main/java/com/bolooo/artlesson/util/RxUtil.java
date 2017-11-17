@@ -14,7 +14,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by codeest on 2016/8/3.
+ * rx管理工具类
  */
 public class RxUtil {
 
@@ -32,7 +32,6 @@ public class RxUtil {
             }
         };
     }
-
 
     /**
      * 统一返回结果处理
@@ -57,6 +56,30 @@ public class RxUtil {
         };
     }
 
+    /**
+     * 统一线程处理,并返回结果
+     * @param <T>
+     * @return
+     */
+    public static <T> FlowableTransformer<MyHttpResponse<T>, T> rxSchedulerHandlerResult() {    //compose简化线程
+        return new FlowableTransformer<MyHttpResponse<T>, T>() {
+            @Override
+            public Flowable<T> apply(Flowable<MyHttpResponse<T>> observable) {
+                return observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).
+                                flatMap(new Function<MyHttpResponse<T>, Flowable<T>>() {
+                            @Override
+                            public Flowable<T> apply( MyHttpResponse<T> tMyHttpResponse)  {
+                                if(tMyHttpResponse.isSuccess()) {
+                                    return createData(tMyHttpResponse.getData());
+                                } else {
+                                    return Flowable.error(new ApiException("错误", 404));
+                                }
+                            }
+                        });
+            }
+        };
+    }
 
     /**
      * 生成Flowable

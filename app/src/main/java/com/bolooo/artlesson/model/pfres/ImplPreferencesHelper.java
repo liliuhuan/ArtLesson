@@ -69,4 +69,14 @@ public class ImplPreferencesHelper implements PreferencesHelper {
     public void setNoImageState(boolean state) {
         mSPrefs.edit().putBoolean("image_cache",state).apply();
     }
+
+    @Override
+    public int getAdNumber() {
+        return mSPrefs.getInt("adNumber",0);
+    }
+
+    @Override
+    public void setAdNumber(int number) {
+        mSPrefs.edit().putInt("adNumber",number).apply();
+    }
 }

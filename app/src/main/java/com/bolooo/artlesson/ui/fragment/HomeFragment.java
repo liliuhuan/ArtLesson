@@ -1,32 +1,42 @@
 package com.bolooo.artlesson.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDLocation;
 import com.bolooo.artlesson.R;
 import com.bolooo.artlesson.base.RootFragment;
 import com.bolooo.artlesson.contract.HomeContract;
 import com.bolooo.artlesson.entity.AdEntity;
+import com.bolooo.artlesson.entity.ConfigEntity;
 import com.bolooo.artlesson.entity.HomeDataEntity;
 import com.bolooo.artlesson.model.http.Constants;
 import com.bolooo.artlesson.presenter.HomePresenter;
 import com.bolooo.artlesson.ui.HtmlActivity;
+import com.bolooo.artlesson.ui.adapter.HomeClassifyAdapter;
+import com.bolooo.artlesson.ui.adapter.HomeCourseAdapter;
 import com.bolooo.artlesson.ui.adapter.WelcomePagerAdapter;
 import com.bolooo.artlesson.util.DensityUtil;
 import com.bolooo.artlesson.util.LocationUtils;
 import com.bolooo.artlesson.util.ToastUtil;
+import com.bolooo.artlesson.widget.HomeModelView;
 import com.bumptech.glide.Glide;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.youth.banner.Banner;
@@ -38,6 +48,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -54,7 +65,16 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
     TextView tvSeeAll;
     @BindView(R.id.swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
-   
+    @BindView(R.id.view_main)
+    RecyclerView llAroundSelected;
+    Unbinder unbinder;
+    @BindView(R.id.rv_classify)
+    RecyclerView rlClassify;
+    @BindView(R.id.fl_recoment)
+    FrameLayout flRecoment;
+    @BindView(R.id.home_model_view)
+    HomeModelView homeModelView;
+
 
     //礼物广告栏
     private LinearLayout ll_indicator;
@@ -73,6 +93,8 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
     private String maxAge = "0";
     private String keyword = "";
     private String typeLevel = "";
+    private HomeCourseAdapter homeCourseAdapter;
+    private HomeClassifyAdapter homeClassifyAdapter;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -87,8 +109,36 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     protected void initEventAndData() {
         super.initEventAndData();
+        //分类
+        rlClassify.setLayoutManager(new LinearLayoutManager(_mActivity));
+        LinearLayoutManager llm = new LinearLayoutManager(_mActivity);
+        llm.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rlClassify.setLayoutManager(llm);
+        homeClassifyAdapter = new HomeClassifyAdapter(_mActivity);
+        rlClassify.setAdapter(homeClassifyAdapter);
+
+        homeClassifyAdapter.setLisenter(directoryTypesEntity -> {
+//            Bundle bundle = new Bundle();
+//            bundle.putDouble("MyLongitude", longitude);
+//            bundle.putDouble("MyLatitude", latitude);
+//            bundle.putString("tagId", directoryTypesEntity.getId());
+//            bundle.putString("tagName", directoryTypesEntity.getName());
+//            bundle.putString("cityName", cityName);
+//            bundle.putBoolean("isOne", true);
+//            IntentUtils.startNewIntentBundle(_mActivity, bundle, NewCourseListActivity.class);
+        });
+        //列表
+        homeCourseAdapter = new HomeCourseAdapter(getActivity());
+        llAroundSelected.setLayoutManager(new LinearLayoutManager(_mActivity));
+        llAroundSelected.setAdapter(homeCourseAdapter);
+
         mPresenter.checkPermissions(new RxPermissions(_mActivity));
         mPresenter.getAdData();
         mPresenter.getBannerData();
@@ -99,7 +149,6 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
                 mPresenter.getHomeCourseListData(getParams());
             }
         });
-        stateLoading();
     }
 
     @Override
@@ -243,6 +292,24 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
     @Override
     public void showContent(HomeDataEntity homeDataEntity) {
         stateMain();
+        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+
+        List<HomeDataEntity.DirectoryTypesEntity> directoryTypes = homeDataEntity.getDirectoryTypes();
+        homeClassifyAdapter.setList(directoryTypes);
+        String recommandJson = homeDataEntity.getRecommandJson();
+        if (TextUtils.isEmpty(recommandJson) || "".equals(recommandJson)) {
+            flRecoment.setVisibility(View.GONE);
+        } else {
+            flRecoment.setVisibility(View.VISIBLE);
+            ConfigEntity configEntity = JSONObject.parseObject(recommandJson, ConfigEntity.class);
+            if (configEntity != null) {
+                List<ConfigEntity.DataEntity> configEntityData = configEntity.getData();
+                homeModelView.setHomeModelData(_mActivity, configEntityData);
+            }
+        }
+
+        List<HomeDataEntity.CourseShowResponsesEntity> courseShowResponses = homeDataEntity.getCourseShowResponses();
+        homeCourseAdapter.setList(courseShowResponses);
     }
 
     @Override
@@ -276,6 +343,7 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
             latitude = location.getLatitude();
             longitude = location.getLongitude();
         }
+        stateLoading();
         mPresenter.getHomeCourseListData(getParams());
     }
 
@@ -303,7 +371,7 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
                 startChooseCity();
                 break;
             case R.id.tv_gift:
-                
+
                 break;
             case R.id.search_icon:
                 break;
@@ -318,6 +386,8 @@ public class HomeFragment extends RootFragment<HomePresenter> implements HomeCon
     @Override
     public void stateError() {
         super.stateError();
-        if (swipeRefresh!= null) swipeRefresh.setRefreshing(false);
+        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
     }
+
+
 }

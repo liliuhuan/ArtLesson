@@ -1,5 +1,7 @@
 package com.bolooo.artlesson.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.bolooo.artlesson.R;
+import com.bolooo.artlesson.app.App;
 import com.bolooo.artlesson.base.BaseActivity;
 import com.bolooo.artlesson.ui.fragment.ChatFragment;
 import com.bolooo.artlesson.ui.fragment.HomeFragment;
@@ -73,4 +76,25 @@ public class HomeActivity extends BaseActivity {
             return false;
         }
     };
+
+    @Override
+    public void onBackPressedSupport() {
+        super.onBackPressedSupport();
+        showExitDialog();
+    }
+
+    private void showExitDialog() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(R.string.string_tip).setMessage(R.string.string_des)
+                .setPositiveButton(R.string.point_exchange_affirm_txt, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                App.getInstance().exitApp();
+                finish();
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+    }
 }

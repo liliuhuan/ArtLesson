@@ -288,4 +288,6 @@
     <string name="calss_signup">班级报名</string>
     <string name="new_home_course_list">首页找课程列表</string>
     <string name="check_more_all">查看全部周边课程</string>
+    <string name="string_tip">提示</string>
+    <string name="string_des">确定要退出App吗？</string>
 </resources>
